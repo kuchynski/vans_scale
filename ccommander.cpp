@@ -19,13 +19,13 @@ CCommander::CCommander(QWidget *parent): CAllWindows(parent),
     SetInitStruct(init_struct);
 
     QPixmap pix0("0.bmp");
-    AddWidget(&bd, QString::fromLocal8Bit("архив"), pix0);
+    AddWidget(&bd, "archive ", pix0);
     QPixmap pix1("1.bmp");
-    AddWidget(&input, QString::fromLocal8Bit("монитор"), pix1);
+    AddWidget(&input, "monitor", pix1);
     QPixmap pix2("2.bmp");
-    AddWidget(&options, QString::fromLocal8Bit("настройки"), pix2);
+    AddWidget(&options, "options", pix2);
  //   QPixmap pix3("4.png");
- //   AddWidget(&options, QString::fromLocal8Bit("выход"), pix3);
+ //   AddWidget(&options, "exit", pix3);
 
 }
 void CCommander::OnNewSostav()
@@ -46,14 +46,14 @@ void CCommander::OnBeginTarirovka(CSostav &s)
 {
     tarirovka.Begin(s);
     QPixmap pix("5.bmp");
-    RePlaceWidget(0, &tarirovka, QString::fromLocal8Bit("тарировка"), pix);
+    RePlaceWidget(0, &tarirovka, "calibration", pix);
 }
 void CCommander::OnEndTarirovka(CSostav &s, bool res)
 {
     if(res)
         bd.ReturnByTarirovka(s);
     QPixmap pix("0.bmp");
-    RePlaceWidget(0, &bd, QString::fromLocal8Bit("архив"), pix);
+    RePlaceWidget(0, &bd, "archive", pix);
 }
 void CCommander::OnNewKoof(SElementFourth<unsigned> a, SElementFourth<unsigned> b, SElementFourth<int> c)
 {

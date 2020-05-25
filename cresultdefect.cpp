@@ -1,4 +1,5 @@
 #include "cresultdefect.h"
+#include <QBoxLayout>
 
 CResultDefect::CResultDefect(QWidget *parent) :
     QWidget(parent), image(CImage::esPictureOnly, this), image_defect(this), check_axel(this)

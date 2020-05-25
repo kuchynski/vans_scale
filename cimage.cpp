@@ -27,7 +27,7 @@ void CImage::Paint()
     const int end_x = width() - space;
     const int size_x = end_x - begin_x;
 
-    //_______________________ВЕС__________________________
+    //_______________________WEIGHT__________________________
 
     painter.setRenderHint(QPainter::Antialiasing, true);
 
@@ -35,8 +35,8 @@ void CImage::Paint()
     //if(ves[0] != "")
     if(state == esVesAndPicture || state == esVesOnly)
     {
-        QString linux_str1 = QString::fromLocal8Bit("информация о вагоне");
-        QString linux_str2 = QString::fromLocal8Bit("информация о составе");
+        QString linux_str1 = "cars information";
+        QString linux_str2 = "train information";
         QFont font("Courier New", 11, 20);
         font.setBold(true);
         painter.setFont(font);
@@ -56,7 +56,7 @@ void CImage::Paint()
                 painter.drawText(QPointF(begin_x + 15, pos_y+=step_y), ves[i]);
     }
 
-    if(state == esVesAndPicture || state == esPictureOnly)//_______________________ГРАФИК__________________________
+    if(state == esVesAndPicture || state == esPictureOnly)//_______________________CHART__________________________
     {
         const int y_null = begin_y[1] + size_y[1] / 3;
         painter.setPen(QPen(Qt::white));

@@ -19,8 +19,7 @@ CTarirovka::CTarirovka(QWidget *parent) : QWidget(parent), buttons(this), button
     table_init.width_line = width_line2;
     table_vans.SetInitStruct(table_init);
     QList<QString> t2;
-    t2 << QString::fromLocal8Bit("№") << QString::fromLocal8Bit("Осей") << QString::fromLocal8Bit("Скорость") <<
-          QString::fromLocal8Bit("Вес") << QString::fromLocal8Bit("Вес1") << QString::fromLocal8Bit("Вес2");
+    t2 << "#" << "axel" << "speed" << "weight" << "weight1" << "weight2";
     table_vans.SetTitle(t2);
     QObject::connect(&table_vans, SIGNAL(ClickLine(unsigned)), this, SLOT(TableVanClicked(unsigned)));
 
@@ -31,15 +30,15 @@ CTarirovka::CTarirovka(QWidget *parent) : QWidget(parent), buttons(this), button
     but_init.color_backgraund_checked = QColor(100, 100, 255, 255);
     but_init.color_text = Qt::white;
     buttons.SetInitStruct(but_init);
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("ok")));
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("отменить")));
+    buttons.AddButton(CButtons::SButton("ok"));
+    buttons.AddButton(CButtons::SButton("cancel"));
     QObject::connect(&buttons, SIGNAL(PressButton(unsigned, bool)), this, SLOT(OnButtonsClick(unsigned, bool)));
     buttons.Paint();
 
     buttons_work.SetInitStruct(but_init);
-    buttons_work.AddButton(CButtons::SButton(QString::fromLocal8Bit("пересчитать")));
-    buttons_work.AddButton(CButtons::SButton(QString::fromLocal8Bit("установить в системные")));
-    buttons_work.AddButton(CButtons::SButton(QString::fromLocal8Bit("установить из системных")));
+    buttons_work.AddButton(CButtons::SButton("recount"));
+    buttons_work.AddButton(CButtons::SButton("set to system"));
+    buttons_work.AddButton(CButtons::SButton("get from system"));
     QObject::connect(&buttons_work, SIGNAL(PressButton(unsigned, bool)), this, SLOT(OnButtonsWorkClick(unsigned, bool)));
     buttons_work.Paint();
 
@@ -65,13 +64,12 @@ CTarirovka::CTarirovka(QWidget *parent) : QWidget(parent), buttons(this), button
         label_e[i]->setGeometry(QRect(b_x[i]+25, 300, 40, 21));
         label_e[i]->setPalette(palette7);
         label_e[i]->setFont(font2);
-        label_e[i]->setText(QString::fromLocal8Bit("ПБ") + QString::number(i+1));
+        label_e[i]->setText("RB" + QString::number(i+1));
     }
 */
     for(int i = 0; i < 4; i++)
     {
-      //  pb_options[i] = new CPBOptions(false, 250, QString::fromLocal8Bit(""), this);
-        pb_options[i] = new CPBOptions(false, 250, QString::fromLocal8Bit("кооф. ПБ") + QString::number(i+1), this);
+        pb_options[i] = new CPBOptions(false, 250, "ratio RB" + QString::number(i+1), this);
         pb_options[i]->setGeometry(QRect(b_x[i], 275, 100, 250));
     }
     QObject::connect(pb_options[0], SIGNAL(ChangeKoof(unsigned, int)), this, SLOT(OnChangedKoofPB0(unsigned, int)));

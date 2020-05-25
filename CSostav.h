@@ -13,6 +13,7 @@
 #include "cimage.h"
 #include <QtGui>
 #include<QDial>
+#include <QPrinter>
 #include "ctable.h"
 #include "CDefect.h"
 #include "cimagedefect.h"

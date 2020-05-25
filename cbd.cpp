@@ -1,8 +1,10 @@
 #include "cbd.h"
+#include <QBoxLayout>
+#include <QPrintDialog>
 
 CBD::CBD(QWidget *parent): QWidget(parent),
-    file_path(QDir::current().absolutePath()), result(this), //image(CImage::esVesAndPicture, this), check_pb(this)
-    calendar(this), table_sostavs(this), table_vans(this), buttons(this), proc_pdf(this), check_pb(this)
+    calendar(this), buttons(this), table_sostavs(this), table_vans(this), result(this), check_pb(this),
+    file_path(QDir::current().absolutePath()), proc_pdf(this) //image(CImage::esVesAndPicture, this), check_pb(this)
 {
     QBoxLayout *pbx = new QBoxLayout(QBoxLayout::LeftToRight);
     QBoxLayout *pbx1 = new QBoxLayout(QBoxLayout::TopToBottom);
@@ -63,8 +65,7 @@ CBD::CBD(QWidget *parent): QWidget(parent),
     table_init.width_line = width_line;
     table_sostavs.SetInitStruct(table_init);
     QList<QString> t;
-    t << QString::fromLocal8Bit("Время") << QString::fromLocal8Bit("Напр.") << QString::fromLocal8Bit("Лок.") <<
-         QString::fromLocal8Bit("Ваг.") << QString::fromLocal8Bit("Вес");
+    t << "time" << "dir." << "loc." << "car" << "weight";
     table_sostavs.SetTitle(t);
     QObject::connect(&table_sostavs, SIGNAL(ClickLine(unsigned)), this, SLOT(TableSostavClicked(unsigned)));
     QObject::connect(&table_sostavs, SIGNAL(IAmReSize()), this, SLOT(OnReSizeTableSostav()));
@@ -78,9 +79,7 @@ CBD::CBD(QWidget *parent): QWidget(parent),
     table_vans.SetInitStruct(table_init);
 //    table_vans.setFocusPolicy(Qt::ClickFocus);
     QList<QString> t2;
-    t2 << QString::fromLocal8Bit("№") << QString::fromLocal8Bit("Осей") << QString::fromLocal8Bit("Скорость") <<
-          QString::fromLocal8Bit("Вес") << QString::fromLocal8Bit("Деффект");
-        //  QString::fromLocal8Bit("Вес") << QString::fromLocal8Bit("Вес1") << QString::fromLocal8Bit("Вес2");
+    t2 << "#" << "axes" << "speed" << "weight" << "defect";
     table_vans.SetTitle(t2);
     pbx2->addWidget(&table_vans, 1);
     table_vans.resize(300, 2000);
@@ -98,12 +97,12 @@ CBD::CBD(QWidget *parent): QWidget(parent),
   //  but_init.color_backgraund_checked2 = QColor(100, 100, 255, 255);
     but_init.color_text = Qt::white;
     buttons.SetInitStruct(but_init);
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("тарировать")));
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("скрыть")));
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("настроить печать")));
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("печатать")));
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("создать pdf")));
-    buttons.AddButton(CButtons::SButton(QString::fromLocal8Bit("удалить")));
+    buttons.AddButton(CButtons::SButton("calibrate"));
+    buttons.AddButton(CButtons::SButton("hide"));
+    buttons.AddButton(CButtons::SButton("configure printing"));
+    buttons.AddButton(CButtons::SButton("print"));
+    buttons.AddButton(CButtons::SButton("print pdf"));
+    buttons.AddButton(CButtons::SButton("delete"));
     QObject::connect(&buttons, SIGNAL(PressButton(unsigned, bool)), this, SLOT(OnButtonsClick(unsigned, bool)));
     QObject::connect(&buttons, SIGNAL(IAmReSize()), this, SLOT(OnReSizeButtons()));
     pbx1->addWidget(&buttons, 3);
@@ -119,10 +118,10 @@ CBD::CBD(QWidget *parent): QWidget(parent),
     chek_init.color_backgraund_checked = QColor(100, 100, 255, 255);
     chek_init.color_text = Qt::white;
     check_pb.SetInitStruct(chek_init);
-    check_pb.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ1")));
-    check_pb.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ2")));
-    check_pb.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ3")));
-    check_pb.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ4")));
+    check_pb.AddButton(CChecks::SButton("RB1"));
+    check_pb.AddButton(CChecks::SButton("RB2"));
+    check_pb.AddButton(CChecks::SButton("RB3"));
+    check_pb.AddButton(CChecks::SButton("RB4"));
     for(int i = 0; i < 4; i++)
         check_pb.SetChecked(i, (param.GetArchonoffPb(i)));
     QObject::connect(&check_pb, SIGNAL(PressButton(unsigned,bool)), this, SLOT(OnCheckedPB(unsigned,bool)));
@@ -222,7 +221,7 @@ bool CBD::YesOrNoYearMonDay(const QDate &date)
 void CBD::PaintGridSostav()
 {
     table_sostavs.Clear();
-    for(int i = 0; i < GetSize(); i ++)
+    for(unsigned i = 0; i < GetSize(); i ++)
     {
         QList<QString> l;
         (*this)[i].PaintSostav(l);
@@ -240,7 +239,7 @@ void CBD::SetActivVan(unsigned row)
     for(unsigned i = 0; i < kol_axel; i ++)
     {
         unsigned os = ((*this)[activ_sostav].GetDirection())? i : kol_axel - (i+1);
-        check_axel->AddButton(CChecks::SButton(QString::number(os+1) + QString::fromLocal8Bit(" ось")));
+        check_axel->AddButton(CChecks::SButton(QString::number(os+1) + " axel"));
     }
     for(unsigned i = 0; i < kol_axel; i ++)
     {
@@ -271,10 +270,9 @@ void CBD::TableSostavClicked(unsigned row, const bool &deactiv)
     check_pb.setVisible(true);
     if(row >= GetSize())
         row = GetSize() - 1;
-    if(row < 0)
-        return;
+//    if(row < 0) return;
     if(deactiv)
-        if((activ_sostav >= 0) && (activ_sostav < GetSize()))
+        if((activ_sostav >= 0) && (activ_sostav < (int)GetSize()))
             (*this)[activ_sostav].SetDeActiv();
     activ_sostav = row;
     (*this)[activ_sostav].SetActiv(&table_vans, image_tare, image_real, dial_arch, true);
@@ -283,7 +281,7 @@ void CBD::TableSostavClicked(unsigned row, const bool &deactiv)
 //---------------------------------------------
 void CBD::TableVanClicked(unsigned row)
 {
-    if(activ_sostav < 0 || activ_sostav >= GetSize())
+    if(activ_sostav < 0 || activ_sostav >= (int)GetSize())
         return;
     SetActivVan(row);
     (*this)[activ_sostav].SetActivVan(image_tare, image_real, dial_arch, row);

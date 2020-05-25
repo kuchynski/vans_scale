@@ -48,6 +48,7 @@ QString CDateTime::GetTime2()const
 }
 QString CDateTime::GetDate()const
 {
-    return CString(date.day(), 2).GetQString() + "." + CString(static_cast<int>(date.month()), 2).GetQString() +
-         "." + CString(static_cast<int>(date.year()), 4).GetQString() + QString::fromLocal8Bit(" ã.");
+    return  CString(date.day(), 2).GetQString() + "." +
+            CString(static_cast<int>(date.month()), 2).GetQString() + "." +
+            CString(static_cast<int>(date.year()), 4).GetQString();
 }

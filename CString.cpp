@@ -90,7 +90,7 @@ CString::CString(const QString &s)
 
         str = new char[size+1];
         for(int i = 0; i < size; i ++)
-            str[i] = s[i].toAscii();
+            str[i] = s[i].combiningClass(); //toAscii();
         str[size] = '\0';
 }
 //---------------------------------------------------------------------------
@@ -140,7 +140,7 @@ CString CString::operator=(const CString &ks)
 //---------------------------------------------------------------------------
 QString CString::GetQString() const
 {
-  return QString(QString::fromLocal8Bit(str));
+  return QString(str);
 }
 //-------------------------------------------------------------
 int CString::GetInt(void)

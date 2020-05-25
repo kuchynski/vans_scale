@@ -12,9 +12,9 @@ CResult::CResult(QWidget *parent): CAllWindows(parent), result_tare(this), resul
     SetInitStruct(init_struct);
 
     QPixmap pix0("0.bmp");
-    AddWidget(&result_tare, QString::fromLocal8Bit("вес"), pix0);
+    AddWidget(&result_tare, "weight", pix0);
     QPixmap pix1("1.bmp");
-    AddWidget(&result_defect, QString::fromLocal8Bit("поверхность катания"), pix1);
+    AddWidget(&result_defect, "tread", pix1);
 
     QObject::connect(&result_tare, SIGNAL(IAmReSize()), this, SLOT(IAmReSizeFromTare()));
     QObject::connect(&result_tare, SIGNAL(DragImageTare(int)), this, SLOT(DragImageFromTare(int)));

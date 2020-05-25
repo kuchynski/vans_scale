@@ -1,4 +1,5 @@
 #include "cresulttare.h"
+#include <QBoxLayout>
 
 CResultTare::CResultTare(QWidget *parent) :
     QWidget(parent), image(CImage::esVesAndPicture, this)

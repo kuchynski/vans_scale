@@ -1,7 +1,8 @@
 #include "cpboptions.h"
 
-CPBOptions::CPBOptions(bool ens, int h, QString n, QWidget *parent) : QWidget(parent), name(n),
-    max_height(h), sm_height(h), visiable(false), timer_id(0), enabled_ns(ens)
+CPBOptions::CPBOptions(bool ens, int h, QString n, QWidget *parent) : QWidget(parent),
+    enabled_ns(ens), name(n),
+    max_height(h), sm_height(h), timer_id(0), visiable(false)
 {
     QWidget::setFixedHeight(0);
     QPalette palette7;
@@ -50,15 +51,15 @@ CPBOptions::CPBOptions(bool ens, int h, QString n, QWidget *parent) : QWidget(pa
     }
     label_sb[0]->setText(name);
     label_sb[0]->setGeometry(QRect(10, -h, 120, 21));
-    label_sb[1]->setText(QString::fromLocal8Bit("À"));
-    label_sb[2]->setText(QString::fromLocal8Bit("Á"));
-    label_sb[3]->setText(QString::fromLocal8Bit("Â"));
+    label_sb[1]->setText("A");
+    label_sb[2]->setText("B");
+    label_sb[3]->setText("C");
 
     if(enabled_ns)
     {
         spin_box_koof[3]->SetMinMax(1, 99);
         QObject::connect(spin_box_koof[3], SIGNAL(NewValue(int)), this, SLOT(OnKoofDChanged(int)));
-        label_sb[4]->setText(QString::fromLocal8Bit("Ä"));
+        label_sb[4]->setText("D");
         button_ns = new CChecks(this);
         button_ns->setGeometry(QRect(30, 100, 80, 40));
         CChecks::SButtonsInit chek_init;
@@ -68,7 +69,7 @@ CPBOptions::CPBOptions(bool ens, int h, QString n, QWidget *parent) : QWidget(pa
 
         QImage image1("NS.bmp");
         QImage image2("SN.bmp");
-        button_ns->AddButton(QString(""), image1, image2);//QString::fromLocal8Bit("ÏÁ") + QString::number(i+1)
+        button_ns->AddButton(QString(""), image1, image2);
         QObject::connect(button_ns, SIGNAL(PressButton(unsigned,bool)), this, SLOT(OnCheckedNSPB(unsigned,bool)));
     }
 

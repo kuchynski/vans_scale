@@ -1,8 +1,8 @@
 #include <QtGui>
+#include <QApplication>
 #include "ccommander.h"
 
-
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
    // QSplashScreen splash(QPixmap("first.jpg"));

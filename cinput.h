@@ -2,8 +2,9 @@
 #define CINPUT_H
 
 #include <QWidget>
-#include<QDial>
+#include <QDial>
 #include <QtGui>
+#include <QLabel>
 #include "cmonitor.h"
 #include "ccomport.h"
 #include "cbuttonscheck.h"

@@ -63,16 +63,16 @@ void CMonitor::paintEvent(QPaintEvent *p)
      painter.setPen(QPen(color_datchik[number_datchik]));
      painter.drawPolyline(data, size_x);
      painter.setPen(QPen(Qt::white));
-   //  —Œ—“ﬂÕ»≈
+   //  --------
      {
          {
-             painter.drawText(QPointF(begin_x + 50, center_y[0] + 5), QString::fromLocal8Bit("—¬ﬂ«‹"));
-             painter.drawText(QPointF(center_x - 80, begin_y[0] + 25), QString::fromLocal8Bit("œ¡1"));
-             painter.drawText(QPointF(center_x - 30, begin_y[0] + 25), QString::fromLocal8Bit("œ¡2"));
-             painter.drawText(QPointF(center_x - 80, end_y[0] - 25), QString::fromLocal8Bit("œ¡3"));
-             painter.drawText(QPointF(center_x - 30, end_y[0] - 25), QString::fromLocal8Bit("œ¡4"));
-             painter.drawText(QPointF(center_x - 130, end_y[0] - 25), QString::fromLocal8Bit("ƒÃ1"));
-             painter.drawText(QPointF(center_x + 20, end_y[0] - 25), QString::fromLocal8Bit("ƒÃ2"));
+             painter.drawText(QPointF(begin_x + 50, center_y[0] + 5), "TARGET");
+             painter.drawText(QPointF(center_x - 80, begin_y[0] + 25), "RB1");
+             painter.drawText(QPointF(center_x - 30, begin_y[0] + 25), "RB2");
+             painter.drawText(QPointF(center_x - 80, end_y[0] - 25), "RB3");
+             painter.drawText(QPointF(center_x - 30, end_y[0] - 25), "RB4");
+             painter.drawText(QPointF(center_x - 130, end_y[0] - 25), "SM1");
+             painter.drawText(QPointF(center_x + 20, end_y[0] - 25), "SM2");
          }
          painter.setPen(QPen(Qt::darkGreen));
          painter.setBrush(QBrush((state_bloc.enabled)? Qt::green : Qt::black));
@@ -97,21 +97,15 @@ void CMonitor::paintEvent(QPaintEvent *p)
          painter.setFont(font);
          painter.setPen(QPen(Qt::white));
          if(state_bloc.direction == 2)
-            painter.drawText(QPointF(center_x + 80, center_y[0]-10), QString::fromLocal8Bit("<"));
+            painter.drawText(QPointF(center_x + 80, center_y[0]-10), "<");
          else if(state_bloc.direction == 1)
-            painter.drawText(QPointF(center_x + 210, center_y[0]-10), QString::fromLocal8Bit(">"));
+            painter.drawText(QPointF(center_x + 210, center_y[0]-10), ">");
          painter.setPen(QPen(Qt::green));
          if(state_bloc.speed)
-            painter.drawText(QPointF(center_x + 110, center_y[0]-10), QString::number((int)((double)state_bloc.speed * 3.6)) + QString::fromLocal8Bit(" ÍÏ/˜   "));
+            painter.drawText(QPointF(center_x + 110, center_y[0]-10), QString::number((int)((double)state_bloc.speed * 3.6)) + " km/h   ");
          if(state_bloc.kol_of_van)
          {
-             QString s1 = QString::fromLocal8Bit(" ‚‡„ÓÌÓ‚");
-             int end_ch1 = state_bloc.kol_of_van % 10;
-             if(end_ch1 == 1)
-                 s1 = QString::fromLocal8Bit(" ‚‡„ÓÌ");
-             else if((state_bloc.kol_of_van < 5 || state_bloc.kol_of_van > 21) && (end_ch1 > 1 && end_ch1 < 5))
-                 s1 = QString::fromLocal8Bit(" ‚‡„ÓÌ‡");
-
+             QString s1 = (state_bloc.kol_of_van > 1)? " cars" : " car";
              painter.drawText(QPointF(center_x + 90, center_y[0]+25), QString::number(state_bloc.kol_of_van) + s1);
          }
      }

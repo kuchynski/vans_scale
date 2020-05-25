@@ -2,6 +2,7 @@
 #define CPBOPTIONS_H
 
 #include <QWidget>
+#include <QLabel>
 #include "cchecks.h"
 #include "cspinbox.h"
 #include "cparam.h"

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtGui>
+#include <QBoxLayout>
 #include "cbuttonscheck.h"
 #include "CSostav.h"
 

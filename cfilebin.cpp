@@ -2,7 +2,7 @@
 
 CFileBin::CFileBin(QString file_name, eType t): type(t), f(0), uk_buffer(0), end_buffer(0)
 {
-    QByteArray str = file_name.toAscii();
+    QByteArray str = file_name.toLocal8Bit();//toAscii();
 
     if(type == ETRead)
         f = fopen(str.data(), "rb");

@@ -29,7 +29,6 @@ void CImageDefect::Paint()
     const int end_y[4] = {size_y, size_y, 2*size_y, 2*size_y};
     const int size_x = width() / 2;
     const int begin_x[4] = {0, size_x, 0, size_x};
-    const int end_x[4] = {size_x, 2*size_x, size_x, 2*size_x};
     const int y_null[4] = {begin_y[0] + size_y/2, begin_y[1] + size_y/2, begin_y[2] + size_y/2,
                            begin_y[3] + size_y/2};
 
@@ -62,10 +61,10 @@ void CImageDefect::Paint()
         painter.setPen(QPen(color_pb[i], 2));
         painter.drawPolyline(data_real2, size_x);
         painter.setPen(QPen(Qt::white));
-        painter.drawText(QPointF(begin_x[i] + 5, begin_y[i] + 15), QString::fromLocal8Bit("ПБ") + QString::number(i+1));
-        painter.drawText(QPointF(begin_x[i] + 5, begin_y[i] + 30), QString::fromLocal8Bit("порог: ") + QString::number(porog[i]));
+        painter.drawText(QPointF(begin_x[i] + 5, begin_y[i] + 15), "RB" + QString::number(i+1));
+        painter.drawText(QPointF(begin_x[i] + 5, begin_y[i] + 30), "threshold: " + QString::number(porog[i]));
         painter.setPen(QPen((porog[i] > defect_size[i])? Qt::white : Qt::red));
-        painter.drawText(QPointF(begin_x[i] + 5, begin_y[i] + 45), QString::fromLocal8Bit("уровень: ") + QString::number(defect_size[i]));
+        painter.drawText(QPointF(begin_x[i] + 5, begin_y[i] + 45), "level: " + QString::number(defect_size[i]));
     }
     painter.end();
     update();

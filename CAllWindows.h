@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtGui>
+#include <QBoxLayout>
 #include "cbuttonscheck.h"
 #include "CSostav.h"
 
@@ -21,8 +22,8 @@ public:
         unsigned rewindow_kol_step;
         unsigned frame_height;
         unsigned frame_width;
-        SAllWindowsInit(): rewindow_time_all(700), rewindow_kol_step(10), frame_height(30), frame_width(30),
-                           direction_frame(edHorizontal), direction_widget(edHorizontal) {}
+        SAllWindowsInit(): direction_frame(edHorizontal), direction_widget(edHorizontal),
+                           rewindow_time_all(700), rewindow_kol_step(10), frame_height(30), frame_width(30) {}
     };
 
     explicit CAllWindows(QWidget *parent = 0);

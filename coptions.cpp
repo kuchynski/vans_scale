@@ -19,11 +19,10 @@ COptions::COptions(QWidget *parent) : QWidget(parent), label_about(this)//, butt
     struct_label.color_text = QColor(255, 255, 255, 255);
     struct_label.font = font2;
     label_about.SetInitStruct(struct_label);
-    label_about.AddString(QString::fromLocal8Bit("индикатор весовой нагрузки"));
-    label_about.AddString(QString::fromLocal8Bit("ИВН-2-30"));
-    label_about.AddString(QString::fromLocal8Bit("версия вторая.ноль"));
-    label_about.AddString("kuchynski@tut.by");
-    label_about.AddString("+375 447302607");
+    label_about.AddString("the weight load indicator");
+    label_about.AddString("WLI-2-30");
+    label_about.AddString("v 2.1");
+    label_about.AddString("kuchynskiandrei@gmail.com");
     label_about.setGeometry(QRect(0, height() - 40, width(), 20));
     label_about.Start();
 
@@ -41,7 +40,7 @@ COptions::COptions(QWidget *parent) : QWidget(parent), label_about(this)//, butt
     label_an->setGeometry(QRect(260, 50, 200, 21));
     label_an->setPalette(palette7);
     label_an->setFont(font2);
-    label_an->setText(QString::fromLocal8Bit("автоустановка"));*/
+    label_an->setText("autoset");*/
 
     int b_x[4] = {50, 170, 290, 410};
     int b_y = 50;
@@ -65,13 +64,13 @@ COptions::COptions(QWidget *parent) : QWidget(parent), label_about(this)//, butt
         label_e[i]->setGeometry(QRect(b_x[i]+15, b_y, 40, 21));
         label_e[i]->setPalette(palette7);
         label_e[i]->setFont(font2);
-        label_e[i]->setText(QString::fromLocal8Bit("ПБ") + QString::number(i+1));
+        label_e[i]->setText("RB" + QString::number(i+1));
     }
 
     for(int i = 0; i < 4; i++)
     {
         pb_options[i] = new CPBOptions(true, 350, "", this);
-//        pb_options[i] = new CPBOptions(true, 300, QString::fromLocal8Bit("кооф. ПБ") + QString::number(i+1), this);
+//        pb_options[i] = new CPBOptions(true, 300, "ratio RB" + QString::number(i+1), this);
         pb_options[i]->setGeometry(QRect(b_x[i]-20, b_y+100, 100, 320));
         pb_options[i]->SetKoof(param.GetKoofA(i), param.GetKoofB(i), param.GetKoofC(i), param.GetPorogDefect(i));
         pb_options[i]->SetNS((param.GetNSPb(i))? true : false);
@@ -134,26 +133,26 @@ COptions::COptions(QWidget *parent) : QWidget(parent), label_about(this)//, butt
         label_sb[i]->setPalette(palette7);
         label_sb[i]->setFont(font2);
     }
-    label_sb[0]->setText(QString::fromLocal8Bit("расстояния"));
-    label_sb[1]->setText(QString::fromLocal8Bit("между ДМ1 и ПБ1"));
-    label_sb[2]->setText(QString::fromLocal8Bit("между ДМ2 и ПБ2"));
-    label_sb[3]->setText(QString::fromLocal8Bit("между ДМ1 и ДМ2"));
+    label_sb[0]->setText("distance ");
+    label_sb[1]->setText("SM1 to RB1");
+    label_sb[2]->setText("SM2 to RB2");
+    label_sb[3]->setText("SM1 to SM2");
 
     QLabel *label_at = new QLabel(this);
     label_at->setGeometry(QRect(790, b_y-20, 160, 40));
     label_at->setPalette(palette7);
     label_at->setFont(font2);
-    label_at->setText(QString::fromLocal8Bit("автоматическая\nтарировка"));
+    label_at->setText("auto\ncalibration");
     QLabel *label_k8 = new QLabel(this);
     label_k8->setGeometry(QRect(790, sb_y[0]-30, 100, 20));
     label_k8->setPalette(palette7);
     label_k8->setFont(font2);
-    label_k8->setText(QString::fromLocal8Bit("кооф. 8"));
+    label_k8->setText("weight ratio 8");
     QLabel *label_vl80 = new QLabel(this);
     label_vl80->setGeometry(QRect(790, sb_y[2]-30, 100, 20));
     label_vl80->setPalette(palette7);
     label_vl80->setFont(font2);
-    label_vl80->setText(QString::fromLocal8Bit("кооф. вл-80"));
+    label_vl80->setText("weight ratio VL-80");
 
     auto_tarirovra = new CChecks(this);
     auto_tarirovra->setGeometry(QRect(790, b_y+25, 60, 60));

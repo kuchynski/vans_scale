@@ -1,7 +1,9 @@
 #include "cinput.h"
 
-CInput::CInput(QWidget *parent): QWidget(parent), com_port(0), monitor(this),
-    check_dat(this), visiable(true), check_port(this),
+CInput::CInput(QWidget *parent): QWidget(parent),
+    check_dat(this),  check_port(this),
+    com_port(0), monitor(this),
+    visiable(true),
     now_exit(false), dir_path(QDir::current().absolutePath())
 {
     monitor.setGeometry(QRect(50, 200, 500, 300));
@@ -31,12 +33,12 @@ CInput::CInput(QWidget *parent): QWidget(parent), com_port(0), monitor(this),
     chek_init.color_backgraund_checked = QColor(100, 100, 255, 255);
     chek_init.color_text = Qt::white;
     check_dat.SetInitStruct(chek_init);
-    check_dat.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ1")));
-    check_dat.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ2")));
-    check_dat.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ3")));
-    check_dat.AddButton(CChecks::SButton(QString::fromLocal8Bit("ПБ4")));
-    check_dat.AddButton(CChecks::SButton(QString::fromLocal8Bit("ДМ1")));
-    check_dat.AddButton(CChecks::SButton(QString::fromLocal8Bit("ДМ2")));
+    check_dat.AddButton(CChecks::SButton("RB1"));
+    check_dat.AddButton(CChecks::SButton("RB2"));
+    check_dat.AddButton(CChecks::SButton("RB3"));
+    check_dat.AddButton(CChecks::SButton("RB4"));
+    check_dat.AddButton(CChecks::SButton("SM1"));
+    check_dat.AddButton(CChecks::SButton("SM2"));
     check_dat.SetChecked(param.GetMonitorValue());
     QObject::connect(&check_dat, SIGNAL(PressButton(unsigned,bool)), this, SLOT(on_checked_datChanged(unsigned,bool)));
 
@@ -55,17 +57,17 @@ CInput::CInput(QWidget *parent): QWidget(parent), com_port(0), monitor(this),
     on_checked_portChanged(param.GetComNumber(), true);
     check_port.setGeometry(QRect(50, 120, 900, 50));
     check_port.SetInitStruct(chek_init);
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("выкл")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM1")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM2")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM3")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM4")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM5")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM6")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM7")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM8")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("COM9")));
-    check_port.AddButton(CChecks::SButton(QString::fromLocal8Bit("файл")));
+    check_port.AddButton(CChecks::SButton("NONE"));
+    check_port.AddButton(CChecks::SButton("COM1"));
+    check_port.AddButton(CChecks::SButton("COM2"));
+    check_port.AddButton(CChecks::SButton("COM3"));
+    check_port.AddButton(CChecks::SButton("COM4"));
+    check_port.AddButton(CChecks::SButton("COM5"));
+    check_port.AddButton(CChecks::SButton("COM6"));
+    check_port.AddButton(CChecks::SButton("COM7"));
+    check_port.AddButton(CChecks::SButton("COM8"));
+    check_port.AddButton(CChecks::SButton("COM9"));
+    check_port.AddButton(CChecks::SButton("----"));
     check_port.SetChecked(param.GetComNumber());
     QObject::connect(&check_port, SIGNAL(PressButton(unsigned,bool)), this, SLOT(on_checked_portChanged(unsigned,bool)));
 
@@ -93,28 +95,28 @@ void CInput::OnNewComPortState(unsigned s)
     switch(s)
     {
         case CComPort::cpsDisConnect:
-            label_com_state->setText(QString::fromLocal8Bit("порт отключён"));
+            label_com_state->setText("---- ------ё-");
             QObject::killTimer(timer_new_second);
             break;
         case CComPort::cpsConnect:
-            label_com_state->setText(QString::fromLocal8Bit("cвязь"));
+            label_com_state->setText("connect");
             timer_new_second = QObject::startTimer(1000);
             break;
         case CComPort::cpsConnect1:
-            label_com_state->setText(QString::fromLocal8Bit("cвязь"));
+            label_com_state->setText("connect");
             break;
         case CComPort::cpsConnect2:
-            label_com_state->setText(QString::fromLocal8Bit("нет данных"));
+            label_com_state->setText("connect2");
             break;
         case CComPort::cpsReload:
-            label_com_state->setText(QString::fromLocal8Bit("перезагрузка порта"));
+            label_com_state->setText("reload");
             process_reload->start(dir_path + "/usb_reload.bat");
             break;
         case CComPort::cpsError:
-            label_com_state->setText(QString::fromLocal8Bit("ошибка порта"));
+            label_com_state->setText("error");
             break;
         case CComPort::cpsNoState:
-            label_com_state->setText(QString::fromLocal8Bit(""));
+            label_com_state->setText("");
             break;
         default:
             label_com_state->setText(QString(""));

@@ -389,7 +389,7 @@ void CSostav::AddData(CStack4<int> &d_filter, CStack4<int> &d_real, CStack4<int>
         SElementFourth<int> tare = 0;
         for(unsigned i = 0; i < vans.GetSize(); i ++)
         {
-            if(vans[i].GetLokomotiv() && vans[i].GetType() == QString::fromLocal8Bit("ВЛ-80"))
+            if(vans[i].GetLokomotiv() && vans[i].GetType() == "VL-80")
             {
                 kol ++;
                 for(unsigned j = 0; j < 4; j ++)
@@ -622,14 +622,14 @@ void CSostav::PicGraphik(CImage *image_arch, int &dial_arch, const bool real, co
     if(image_arch->GetState() == CImage::esVesAndPicture || image_arch->GetState() == CImage::esVesOnly)
     {
         int number_str = 0;
-        QString str1 = (vans[activ_van].GetLokomotiv())? QString::fromLocal8Bit("локомотив") : QString::fromLocal8Bit("вагон");
-        image_arch->SetVes(number_str++, QString::fromLocal8Bit("cat вес.") + str1 +  QString::fromLocal8Bit("a.") + vans[activ_van].GetType());
+        QString str1 = (vans[activ_van].GetLokomotiv())? "locomotive" : "car";
+        image_arch->SetVes(number_str++, "cat ---." + str1 + "a." + vans[activ_van].GetType());
         image_arch->SetVes(number_str++, str1 + " " + vans[activ_van].GetType());
-        image_arch->SetVes(number_str++, vans[activ_van].GetTareStr(axels, 100, 100) + QString::fromLocal8Bit(" т - вес"));
-        image_arch->SetVes(number_str++, vans[activ_van].GetTareStr(axels, 101, 100) + QString::fromLocal8Bit(" т - вес первой тележки"));
-        image_arch->SetVes(number_str++, vans[activ_van].GetTareStr(axels, 102, 100) + QString::fromLocal8Bit(" т - вес второй тележки"));
-        image_arch->SetVes(number_str++, QString::fromLocal8Bit("дат-|   оси"));
-        QString str2 = QString::fromLocal8Bit("чики| все|");
+        image_arch->SetVes(number_str++, vans[activ_van].GetTareStr(axels, 100, 100) + " t - weight");
+        image_arch->SetVes(number_str++, vans[activ_van].GetTareStr(axels, 101, 100) + " t - side 1 weight");
+        image_arch->SetVes(number_str++, vans[activ_van].GetTareStr(axels, 102, 100) + " t - side 2 weight");
+        image_arch->SetVes(number_str++, "----|   ---");
+        QString str2 = "----| ---|";
         QString str3 = "----|----|";
         const int beg = (direction)? 0 : vans[activ_van].GetSize() - 1;
         const int end = (direction)? vans[activ_van].GetSize() : -1;
@@ -646,13 +646,13 @@ void CSostav::PicGraphik(CImage *image_arch, int &dial_arch, const bool real, co
             QString str = (vans[activ_van].GetTareStr1(axels, 100, n)) + "|";
             for(int i = beg; i != end; i += step)
                 str += (vans[activ_van].GetTareStr1(axels, i, n) + " ");
-            image_arch->SetVes(number_str++, QString::fromLocal8Bit("пб") + QString::number(n+1) + " |" + str);
+            image_arch->SetVes(number_str++, "rb" + QString::number(n+1) + " |" + str);
         }
-        image_arch->SetVes(number_str++, QString::fromLocal8Bit("пб1   пб2   пб3   пб4"));
-        image_arch->SetVes(number_str++, QString::number(GetTareDatAll(0)) + QString::fromLocal8Bit("т ") +
-                                         QString::number(GetTareDatAll(1)) + QString::fromLocal8Bit("т ") +
-                                         QString::number(GetTareDatAll(2)) + QString::fromLocal8Bit("т ") +
-                                         QString::number(GetTareDatAll(3)) + QString::fromLocal8Bit("т "));
+        image_arch->SetVes(number_str++, "rb1   rb2   rb3   rb4");
+        image_arch->SetVes(number_str++, QString::number(GetTareDatAll(0)) + "t " +
+                                         QString::number(GetTareDatAll(1)) + "t " +
+                                         QString::number(GetTareDatAll(2)) + "t " +
+                                         QString::number(GetTareDatAll(3)) + "t ");
     }
     image_arch->Paint();
 }
@@ -663,8 +663,8 @@ void CSostav::PicDefect(CImageDefect *image_arch, unsigned axel)
         image_arch->ClearImage();
         return;
     }
-    int na1 = vans[activ_van].GetBegin();
-    int na2 = axel + na1;
+    unsigned na1 = vans[activ_van].GetBegin();
+    unsigned na2 = axel + na1;
     if(na2 >= defects.GetSize())
     {
         image_arch->ClearImage();
@@ -845,14 +845,11 @@ void CSostav::Print(QPrinter *printer)//QPaintDevice *printer)
             continue;
         kol_van2 ++;
     }
-    painter.drawText(mmpole*6*mmw, 7*mmh, QString::fromLocal8Bit("Протокол взвешивания подвижного состава"));
+    painter.drawText(mmpole*6*mmw, 7*mmh, "Wight report");
     painter.drawText(mmpole*3*mmw, 15*mmh, GetDate() + " " + GetTime());
     font.setPointSize(14); painter.setFont(font);
-    painter.drawText(mmpole*3*mmw, 22*mmh, QString::fromLocal8Bit("Количество вагонов: ") +
-                     QString::number(kol_van2) +
-                     QString::fromLocal8Bit(". Общая масса ") +
-                     QString::number(GetTareAll()/1000) +
-                     QString::fromLocal8Bit(" т."));
+    painter.drawText(mmpole*3*mmw, 22*mmh, "Cars number: " + QString::number(kol_van2) +
+                                           ". Total weight " + QString::number(GetTareAll()/1000) + "t");
     kol_van2 = 0;
     font.setPointSize(11); painter.setFont(font);
     for(unsigned i = 0; i < kol_van; i ++)
@@ -862,11 +859,11 @@ void CSostav::Print(QPrinter *printer)//QPaintDevice *printer)
         kol_van2 ++;
         if(new_page)//шапка
         {
-            painter.drawText(mmpole*2*mmw, y_line*mmh, QString::fromLocal8Bit("№"));
-            painter.drawText((mmpole*7)*mmw, y_line*mmh, QString::fromLocal8Bit("Скор., км/ч"));
-            painter.drawText(mmpole*10*mmw, y_line*mmh, QString::fromLocal8Bit("Вес 1 сторона,т"));
-            painter.drawText(mmpole*14*mmw, y_line*mmh, QString::fromLocal8Bit("Вес 2 сторона,т"));
-            painter.drawText(mmpole*18*mmw, y_line*mmh, QString::fromLocal8Bit("Вес,т"));
+            painter.drawText(mmpole*2*mmw, y_line*mmh, "#");
+            painter.drawText((mmpole*7)*mmw, y_line*mmh, "Speed, km/h");
+            painter.drawText(mmpole*10*mmw, y_line*mmh, "Side 1 weight,t");
+            painter.drawText(mmpole*14*mmw, y_line*mmh, "Side 2 weight,t");
+            painter.drawText(mmpole*18*mmw, y_line*mmh, "Weight,t");
             PaintCells(painter, y_line-y_step/2, y_line+y_step/2, mmpole, mmw, mmh);
             painter.drawText(mmpole*20*mmw, 280*mmh, QString::number(kol_page++));
             new_page = false;

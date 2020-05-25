@@ -11,6 +11,8 @@
 #include "CStack.h"
 #include "CSostav.h"
 #include <QWidget>
+#include <QtGui>
+#include <QCalendarWidget>
 #include "cbuttons.h"
 #include "ctable.h"
 #include "cchecks.h"
